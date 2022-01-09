@@ -50,7 +50,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     NSDictionary *testData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testData" ofType:@"plist"]];
     _allPeople = [testData valueForKey:@"people"];
-    [_tableView reloadData];
+    [self segmentChanged];
 }
 
 - (void)didReceiveMemoryWarning
