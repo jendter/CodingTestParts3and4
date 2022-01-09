@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		031E7345278B8455006EBC12 /* NSArray+Transform.m in Sources */ = {isa = PBXBuildFile; fileRef = 031E7344278B8455006EBC12 /* NSArray+Transform.m */; };
+		031E734B278B8D7A006EBC12 /* Teacher.m in Sources */ = {isa = PBXBuildFile; fileRef = 031E734A278B8D7A006EBC12 /* Teacher.m */; };
+		031E734E278B8D96006EBC12 /* Student.m in Sources */ = {isa = PBXBuildFile; fileRef = 031E734D278B8D96006EBC12 /* Student.m */; };
+		031E7357278B906B006EBC12 /* UnknownPerson.m in Sources */ = {isa = PBXBuildFile; fileRef = 031E7356278B906B006EBC12 /* UnknownPerson.m */; };
 		8D9C08EF194626E900E55287 /* PeopleTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D9C08EE194626E900E55287 /* PeopleTableViewController.m */; };
 		8DB51FAC193CCBAA00B0FCD9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB51FAB193CCBAA00B0FCD9 /* Foundation.framework */; };
 		8DB51FAE193CCBAA00B0FCD9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB51FAD193CCBAA00B0FCD9 /* CoreGraphics.framework */; };
@@ -19,6 +23,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		031E7342278B8399006EBC12 /* NSArray+Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSArray+Transform.h"; sourceTree = "<group>"; };
+		031E7344278B8455006EBC12 /* NSArray+Transform.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Transform.m"; sourceTree = "<group>"; };
+		031E7349278B8D7A006EBC12 /* Teacher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Teacher.h; sourceTree = "<group>"; };
+		031E734A278B8D7A006EBC12 /* Teacher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Teacher.m; sourceTree = "<group>"; };
+		031E734C278B8D96006EBC12 /* Student.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Student.h; sourceTree = "<group>"; };
+		031E734D278B8D96006EBC12 /* Student.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Student.m; sourceTree = "<group>"; };
+		031E7351278B8DED006EBC12 /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		031E7355278B906B006EBC12 /* UnknownPerson.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnknownPerson.h; sourceTree = "<group>"; };
+		031E7356278B906B006EBC12 /* UnknownPerson.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UnknownPerson.m; sourceTree = "<group>"; };
 		8D9C08ED194626E900E55287 /* PeopleTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeopleTableViewController.h; sourceTree = "<group>"; };
 		8D9C08EE194626E900E55287 /* PeopleTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeopleTableViewController.m; sourceTree = "<group>"; };
 		8DB51FA8193CCBAA00B0FCD9 /* CodingTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodingTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +63,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		031E734F278B8DCE006EBC12 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				031E7351278B8DED006EBC12 /* Person.h */,
+				031E734C278B8D96006EBC12 /* Student.h */,
+				031E734D278B8D96006EBC12 /* Student.m */,
+				031E7349278B8D7A006EBC12 /* Teacher.h */,
+				031E734A278B8D7A006EBC12 /* Teacher.m */,
+				031E7355278B906B006EBC12 /* UnknownPerson.h */,
+				031E7356278B906B006EBC12 /* UnknownPerson.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		031E7350278B8DD9006EBC12 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				031E7342278B8399006EBC12 /* NSArray+Transform.h */,
+				031E7344278B8455006EBC12 /* NSArray+Transform.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		8DB51F9F193CCBAA00B0FCD9 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +121,8 @@
 				8DB51FBB193CCBAA00B0FCD9 /* KBCodingTestAppDelegate.m */,
 				8D9C08ED194626E900E55287 /* PeopleTableViewController.h */,
 				8D9C08EE194626E900E55287 /* PeopleTableViewController.m */,
+				031E734F278B8DCE006EBC12 /* Models */,
+				031E7350278B8DD9006EBC12 /* Extensions */,
 				8DB51FBD193CCBAA00B0FCD9 /* Images.xcassets */,
 				8DB51FB2193CCBAA00B0FCD9 /* Supporting Files */,
 			);
@@ -138,6 +176,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 8DB51F9F193CCBAA00B0FCD9;
@@ -168,7 +207,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				031E734B278B8D7A006EBC12 /* Teacher.m in Sources */,
+				031E7345278B8455006EBC12 /* NSArray+Transform.m in Sources */,
+				031E7357278B906B006EBC12 /* UnknownPerson.m in Sources */,
 				8D9C08EF194626E900E55287 /* PeopleTableViewController.m in Sources */,
+				031E734E278B8D96006EBC12 /* Student.m in Sources */,
 				8DB51FB8193CCBAA00B0FCD9 /* main.m in Sources */,
 				8DB51FBC193CCBAA00B0FCD9 /* KBCodingTestAppDelegate.m in Sources */,
 			);
@@ -266,6 +309,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CodingTest/CodingTest-Prefix.pch";
 				INFOPLIST_FILE = "CodingTest/CodingTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -279,6 +323,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CodingTest/CodingTest-Prefix.pch";
 				INFOPLIST_FILE = "CodingTest/CodingTest-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

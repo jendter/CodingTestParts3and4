@@ -8,11 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PeopleTableViewController : UIViewController<UITableViewDataSource> {
-    UITableView *_tableView;
-    UISegmentedControl *_segmentedControl;
-    NSArray *_allPeople;
-    NSArray *_filteredPeople;
-}
+@interface PeopleTableViewController : UIViewController<UITableViewDataSource>
 
 @end

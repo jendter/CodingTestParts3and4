@@ -7,8 +7,26 @@
 //
 
 #import "PeopleTableViewController.h"
+#import "NSArray+Transform.h"
+#import "Student.h"
+#import "Teacher.h"
+#import "UnknownPerson.h"
+
+typedef NS_ENUM(NSInteger, PeopleFilter) {
+    PeopleFilterAll,
+    PeopleFilterStudents,
+    PeopleFilterTeachers
+};
 
 @interface PeopleTableViewController ()
+
+// UI
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UISegmentedControl *segmentedControl;
+
+// Data
+@property (strong, nonatomic) NSArray <id<Person>> *allPeople;
+@property (strong, nonatomic) NSArray <id<Person>> *filteredPeople;
 
 @end
 
@@ -27,63 +45,77 @@
 {
     [super viewDidLoad];
     
-    CGRect rect;
+    NSArray *filters = @[@(PeopleFilterAll), @(PeopleFilterStudents), @(PeopleFilterTeachers)];
     
-    _segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"All", @"Students", @"Teachers"]];
-    rect = _segmentedControl.frame;
-    rect.origin.x = (self.view.frame.size.width - rect.size.width) / 2;
-    rect.origin.y = 25;
-    _segmentedControl.frame = rect;
-    _segmentedControl.selectedSegmentIndex = 0;
-    [_segmentedControl addTarget:self action:@selector(segmentChanged) forControlEvents:UIControlEventValueChanged];
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[filters mapObjectsUsingBlock:^id _Nonnull(id  _Nonnull obj, NSUInteger idx) {
+        return [self nameOfFilter:[obj integerValue]];
+    }]];
+    self.segmentedControl.selectedSegmentIndex = 0;
+    [self.segmentedControl addTarget:self action:@selector(segmentChanged) forControlEvents:UIControlEventValueChanged];
     
-    rect = self.view.bounds;
-    rect.origin.y = CGRectGetMaxY(_segmentedControl.bounds) + 25;
-    rect.size.height -= rect.origin.y;
-    _tableView = [[UITableView alloc] initWithFrame:rect style:UITableViewStylePlain];
-    _tableView.dataSource = self;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
     
     [self.view addSubview:_tableView];
     [self.view addSubview:_segmentedControl];
+    
+    NSDictionary *testData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testData" ofType:@"plist"]];
+    _allPeople = [[testData valueForKey:@"people"] mapObjectsUsingBlock:^id _Nonnull(id _Nonnull person, NSUInteger idx) {
+        NSString *occupation = person[@"occupation"];
+        if ([occupation isEqualToString:@"Student"]) {
+            return [[Student alloc] initWithDictionary:person];
+        } else if ([occupation isEqualToString:@"Teacher"]) {
+            return [[Teacher alloc] initWithDictionary:person];
+        } else {
+            return [[UnknownPerson alloc] initWithDictionary:person];
+        }
+    }];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    NSDictionary *testData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testData" ofType:@"plist"]];
-    _allPeople = [testData valueForKey:@"people"];
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
+    self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.view addConstraints:@[
+        [self.segmentedControl.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+        [self.segmentedControl.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor],
+        [self.segmentedControl.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor],
+        
+        [self.tableView.topAnchor constraintEqualToAnchor:self.segmentedControl.bottomAnchor],
+        [self.tableView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.tableView.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        [self.tableView.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor],
+    ]];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self segmentChanged];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)segmentChanged
 {
-    [super didReceiveMemoryWarning];
-    _allPeople = nil;
-    _filteredPeople = nil;
-}
-
-- (void)segmentChanged {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (_segmentedControl.selectedSegmentIndex == 0) {
-            _filteredPeople = _allPeople;
-        }
-        else if (_segmentedControl.selectedSegmentIndex == 1) {
-            NSMutableArray *filtered = [NSMutableArray array];
-            for (NSDictionary* person in _allPeople) {
-                if([person[@"occupation"] isEqualToString:@"Student"]){
-                    [filtered addObject: person];
-                }
-            }
-            
-            _filteredPeople = filtered;
-        }
-        else if (_segmentedControl.selectedSegmentIndex == 2) {
-            NSMutableArray *filtered = [NSMutableArray array];
-            for (NSDictionary* person in _allPeople) {
-                if([person[@"occupation"] isEqualToString:@"Teacher"]){
-                    [filtered addObject: person];
-                }
-            }
-            
-            _filteredPeople = filtered;
+        PeopleFilter filter = self.segmentedControl.selectedSegmentIndex;
+        switch (filter) {
+            case PeopleFilterAll:
+                _filteredPeople = _allPeople;
+                break;
+                
+            case PeopleFilterStudents:
+                _filteredPeople = [_allPeople filterObjectsUsingBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nonnull bindings) {
+                    return [evaluatedObject isKindOfClass:[Student class]];
+                }];
+                break;
+                
+            case PeopleFilterTeachers:
+                _filteredPeople = [_allPeople filterObjectsUsingBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nonnull bindings) {
+                    return [evaluatedObject isKindOfClass:[Teacher class]];
+                }];
+                break;
         }
         [_tableView reloadData];
     });
@@ -91,20 +123,44 @@
 
 #pragma mark -
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSString *)nameOfFilter:(PeopleFilter)filter
+{
+    switch (filter) {
+        case PeopleFilterAll:
+            return @"All";
+            break;
+            
+        case PeopleFilterStudents:
+            return @"Students";
+            break;
+            
+        case PeopleFilterTeachers:
+            return @"Teachers";
+            break;
+    }
+}
+
+#pragma mark - UITableView
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _filteredPeople.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellID"];
     
     cell.detailTextLabel.textColor = [UIColor grayColor];
-    NSDictionary* person = _filteredPeople[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", person[@"name"], person[@"occupation"]];
+    id<Person> person = _filteredPeople[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", person.name, person.occupation];
     NSString *subjects = @"";
-    NSDictionary *subjectsDict = person[@"subjects"];
-    for (NSString *subject in subjectsDict) {
-        subjects = [subjects stringByAppendingFormat:@"%@, ", subject];
+    for (NSString *subject in person.subjects) {
+        if ([subjects length] == 0) {
+            subjects = [subject copy];
+        } else {
+            subjects = [subjects stringByAppendingFormat:@", %@", subject];
+        }
     }
     cell.detailTextLabel.text = subjects;
     
