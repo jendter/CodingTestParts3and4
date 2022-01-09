@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>people</key>
+	<array>
+		<dict>
+			<key>name</key>
+			<string>Kaden Matej</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5465</integer>
+			<key>subjects</key>
+			<array>
+				<string>Calculus</string>
+				<string>Physics</string>
+				<string>Music</string>
+				<string>Combinatorics</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Saku Yehudah</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5642</integer>
+			<key>subjects</key>
+			<array>
+				<string>Music</string>
+				<string>Philosophy</string>
+				<string>Computer Science</string>
+				<string>English</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Paris Stigandr</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>6512</integer>
+			<key>subjects</key>
+			<array>
+				<string>French</string>
+				<string>Italian</string>
+				<string>Classics</string>
+				<string>Semiotics</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Bevis Nicolas</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>55000</integer>
+			<key>subjects</key>
+			<array>
+				<string>Kinesiology</string>
+				<string>Nutrition</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Su Hai</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>65000</integer>
+			<key>subjects</key>
+			<array>
+				<string>East Asian Studies</string>
+				<string>Mandarin</string>
+				<string>Political Science</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Riley Lenox</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5467</integer>
+			<key>subjects</key>
+			<array>
+				<string>Sociology</string>
+				<string>Geography</string>
+				<string>Astronomy</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Truman Lanny</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>58198</integer>
+			<key>subjects</key>
+			<array>
+				<string>Film Studies</string>
+				<string>English</string>
+				<string>Literature</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Geoffrey Ryder</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>2514</integer>
+			<key>subjects</key>
+			<array>
+				<string>Linguistics</string>
+				<string>Marketing</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Pearl Geoff</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5415</integer>
+			<key>subjects</key>
+			<array>
+				<string>Marketing</string>
+				<string>Organizational Behaviour</string>
+				<string>Accounting</string>
+				<string>Drama</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Thomas Collen</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5454</integer>
+			<key>subjects</key>
+			<array>
+				<string>Chemistry</string>
+				<string>Radiology</string>
+				<string>Calculus</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Andrew Martin</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5648</integer>
+			<key>subjects</key>
+			<array>
+				<string>Geology</string>
+				<string>Architecture</string>
+				<string>Women&apos;s Studies</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Julia Chow</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>2354</integer>
+			<key>subjects</key>
+			<array>
+				<string>Accounting</string>
+				<string>Calculus</string>
+				<string>Biology</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Terry Loi</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>8625</integer>
+			<key>subjects</key>
+			<array>
+				<string>Canadian History</string>
+				<string>American History</string>
+				<string>Communications</string>
+				<string>Food Studies</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Nick Sacheverell</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>70000</integer>
+			<key>subjects</key>
+			<array>
+				<string>Biology</string>
+				<string>Teaching</string>
+				<string>Sociology</string>
+				<string>Parenting</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Hamon Keaton</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5654</integer>
+			<key>subjects</key>
+			<array>
+				<string>Early Childhood Education</string>
+				<string>Mining</string>
+				<string>Sewing</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Tomas Anastasius</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>8644</integer>
+			<key>subjects</key>
+			<array>
+				<string>Computers and Society</string>
+				<string>Information Technology</string>
+				<string>Graphic Design</string>
+				<string>Game Programming</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Ender Shyamal</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5152</integer>
+			<key>subjects</key>
+			<array>
+				<string>Western Religions</string>
+				<string>Biology</string>
+				<string>Forensic Science</string>
+				<string>French</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Tuathal Vida</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>5546</integer>
+			<key>subjects</key>
+			<array>
+				<string>Cooking</string>
+				<string>Calculus</string>
+				<string>Ancient Languages</string>
+				<string>Music</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Paul Sigibert</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5454</integer>
+			<key>subjects</key>
+			<array>
+				<string>Graphic Design</string>
+				<string>Biology</string>
+				<string>Media</string>
+				<string>Internet</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Anastasia Kyrillos</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5654</integer>
+			<key>subjects</key>
+			<array>
+				<string>Information Technology</string>
+				<string>Philosophy</string>
+				<string>Football</string>
+				<string>Semiotics</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Alberto Devraj</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>6543</integer>
+			<key>subjects</key>
+			<array>
+				<string>Astronomy</string>
+				<string>Marketing</string>
+				<string>Geography</string>
+				<string>Computer Science</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Dixon Kendrick</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5155</integer>
+			<key>subjects</key>
+			<array>
+				<string>Food Sciences</string>
+				<string>Game Theory</string>
+				<string>Abnormal Psychology</string>
+				<string>Visual Arts</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Parwiz Albinus</string>
+			<key>occupation</key>
+			<string>Student</string>
+			<key>tuition</key>
+			<integer>5465</integer>
+			<key>subjects</key>
+			<array>
+				<string>Modern Arts</string>
+				<string>Philosophy</string>
+				<string>Geography</string>
+				<string>Earth Sciences</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Jep Curt</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>5878</integer>
+			<key>subjects</key>
+			<array>
+				<string>Discrete Mathematics</string>
+				<string>Calculus</string>
+				<string>Applied Mathematics</string>
+				<string>Physics</string>
+			</array>
+		</dict>
+		<dict>
+			<key>name</key>
+			<string>Read Dietmar</string>
+			<key>occupation</key>
+			<string>Teacher</string>
+			<key>salary</key>
+			<integer>87984</integer>
+			<key>subjects</key>
+			<array>
+				<string>German</string>
+				<string>Italian</string>
+				<string>French</string>
+				<string>Cantonese</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
