@@ -20,13 +20,17 @@ typedef NS_ENUM(NSInteger, PeopleFilter) {
 
 @interface PeopleTableViewController ()
 
-// UI
-@property (strong, nonatomic) UITableView *tableView;
-@property (strong, nonatomic) UISegmentedControl *segmentedControl;
-
 // Data
+@property (strong, nonatomic) NSArray <NSNumber *>* availableFilters;
+@property (assign, nonatomic) PeopleFilter filter;
+@property (strong, nonatomic) NSString *searchTerm;
 @property (strong, nonatomic) NSArray <id<Person>> *allPeople;
 @property (strong, nonatomic) NSArray <id<Person>> *filteredPeople;
+
+// UI
+@property (strong, nonatomic) UISearchBar *searchBar;
+@property (strong, nonatomic) UISegmentedControl *segmentedControl;
+@property (strong, nonatomic) UITableView *tableView;
 
 @end
 
@@ -45,22 +49,11 @@ typedef NS_ENUM(NSInteger, PeopleFilter) {
 {
     [super viewDidLoad];
     
-    NSArray *filters = @[@(PeopleFilterAll), @(PeopleFilterStudents), @(PeopleFilterTeachers)];
-    
-    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[filters mapObjectsUsingBlock:^id _Nonnull(id  _Nonnull obj, NSUInteger idx) {
-        return [self nameOfFilter:[obj integerValue]];
-    }]];
-    self.segmentedControl.selectedSegmentIndex = 0;
-    [self.segmentedControl addTarget:self action:@selector(segmentChanged) forControlEvents:UIControlEventValueChanged];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.tableView.dataSource = self;
-    
-    [self.view addSubview:_tableView];
-    [self.view addSubview:_segmentedControl];
+    // Data
+    self.availableFilters = @[@(PeopleFilterAll), @(PeopleFilterStudents), @(PeopleFilterTeachers)];
     
     NSDictionary *testData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"testData" ofType:@"plist"]];
-    _allPeople = [[testData valueForKey:@"people"] mapObjectsUsingBlock:^id _Nonnull(id _Nonnull person, NSUInteger idx) {
+    self.allPeople = [[testData valueForKey:@"people"] mapObjectsUsingBlock:^id _Nonnull(id _Nonnull person, NSUInteger idx) {
         NSString *occupation = person[@"occupation"];
         if ([occupation isEqualToString:@"Student"]) {
             return [[Student alloc] initWithDictionary:person];
@@ -70,17 +63,46 @@ typedef NS_ENUM(NSInteger, PeopleFilter) {
             return [[UnknownPerson alloc] initWithDictionary:person];
         }
     }];
+    self.filteredPeople = _allPeople;
+    self.filter = PeopleFilterAll;
+    self.searchTerm = @"";
+    
+    
+    // UI
+    self.searchBar = [[UISearchBar alloc] init];
+    self.searchBar.prompt = @"Subject";
+    self.searchBar.enablesReturnKeyAutomatically = NO;
+    self.searchBar.delegate = self;
+    
+    self.segmentedControl = [[UISegmentedControl alloc] initWithItems:[self.availableFilters mapObjectsUsingBlock:^id _Nonnull(id  _Nonnull obj, NSUInteger idx) {
+        return [self nameOfFilter:[self.availableFilters[idx] integerValue]];
+    }]];
+    self.segmentedControl.selectedSegmentIndex = 0;
+    
+    [self.segmentedControl addTarget:self action:@selector(segmentedControlChanged:) forControlEvents:UIControlEventValueChanged];
+    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    self.tableView.dataSource = self;
+    
+    [self.view addSubview:self.searchBar];
+    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.segmentedControl];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    self.searchBar.translatesAutoresizingMaskIntoConstraints = NO;
     self.segmentedControl.translatesAutoresizingMaskIntoConstraints = NO;
     self.tableView.translatesAutoresizingMaskIntoConstraints = NO;
     
     [self.view addConstraints:@[
-        [self.segmentedControl.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+        [self.searchBar.topAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.topAnchor],
+        [self.searchBar.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
+        [self.searchBar.trailingAnchor constraintEqualToAnchor:self.view.trailingAnchor],
+        
+        [self.segmentedControl.topAnchor constraintEqualToAnchor:self.searchBar.bottomAnchor],
         [self.segmentedControl.leadingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.leadingAnchor],
         [self.segmentedControl.trailingAnchor constraintEqualToAnchor:self.view.safeAreaLayoutGuide.trailingAnchor],
         
@@ -93,58 +115,89 @@ typedef NS_ENUM(NSInteger, PeopleFilter) {
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self segmentChanged];
+    [super viewDidAppear:animated];
+    [self updateTable];
 }
 
-- (void)segmentChanged
+-(void)updateTable
 {
+    // Could run on a serial background thread, and then send updates to the main queue if performance overhead of filtering becomes too great.
+    // Also could debounce if needed.
     dispatch_async(dispatch_get_main_queue(), ^{
-        PeopleFilter filter = self.segmentedControl.selectedSegmentIndex;
-        switch (filter) {
-            case PeopleFilterAll:
-                _filteredPeople = _allPeople;
-                break;
-                
-            case PeopleFilterStudents:
-                _filteredPeople = [_allPeople filterObjectsUsingBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nonnull bindings) {
-                    return [evaluatedObject isKindOfClass:[Student class]];
-                }];
-                break;
-                
-            case PeopleFilterTeachers:
-                _filteredPeople = [_allPeople filterObjectsUsingBlock:^BOOL(id  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nonnull bindings) {
-                    return [evaluatedObject isKindOfClass:[Teacher class]];
-                }];
-                break;
-        }
-        [_tableView reloadData];
+        self.filteredPeople = [self filterPeople:self.allPeople withFilter:self.filter searchTerm:self.searchTerm];
+        [self.tableView reloadData];
     });
+}
+
+- (void)segmentedControlChanged:(UISegmentedControl *)segmentedControl
+{
+    self.filter = [self.availableFilters[segmentedControl.selectedSegmentIndex] integerValue];
+    [self updateTable];
 }
 
 #pragma mark -
 
+// In Swift, this could be an extension on the PeopleFilter enum (name:)
 - (NSString *)nameOfFilter:(PeopleFilter)filter
 {
     switch (filter) {
         case PeopleFilterAll:
             return @"All";
-            break;
             
         case PeopleFilterStudents:
             return @"Students";
-            break;
             
         case PeopleFilterTeachers:
             return @"Teachers";
-            break;
     }
+}
+
+// In Swift, this could be an extension on Array<Person> (filter:searchTerm:)
+- (NSArray <id <Person>> *)filterPeople:(NSArray <id <Person>>*)people withFilter:(PeopleFilter)filter searchTerm:(NSString *)searchTerm
+{
+    NSArray *result = [NSMutableArray arrayWithArray:people];
+    // People Filter
+    result = [result filterObjectsUsingBlock:^BOOL(id<Person> _Nonnull person, NSDictionary<NSString *,id> * _Nonnull bindings) {
+        switch (filter) {
+            case PeopleFilterAll:
+                return YES;
+                
+            case PeopleFilterStudents:
+                return [person isKindOfClass:[Student class]];
+            
+            case PeopleFilterTeachers:
+                return [person isKindOfClass:[Teacher class]];
+        }
+    }];
+    // Search Term
+    result = [result filterObjectsUsingBlock:^BOOL(id<Person> _Nonnull person, NSDictionary<NSString *,id> * _Nonnull bindings) {
+        if (!searchTerm || searchTerm.length == 0) {
+            return YES;
+        }
+        NSArray *matchingSubjects = [person.subjects filterObjectsUsingBlock:^BOOL(NSString * _Nonnull subject, NSDictionary<NSString *,id> * _Nonnull bindings) {
+            return [[subject lowercaseString] containsString:[searchTerm lowercaseString]];
+        }];
+        return matchingSubjects.count > 0;
+    }];
+    return result;
+}
+
+#pragma mark - UISearchBar
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    self.searchTerm = searchText;
+    [self updateTable];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
 }
 
 #pragma mark - UITableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _filteredPeople.count;
+    return self.filteredPeople.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -152,7 +205,7 @@ typedef NS_ENUM(NSInteger, PeopleFilter) {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"cellID"];
     
     cell.detailTextLabel.textColor = [UIColor grayColor];
-    id<Person> person = _filteredPeople[indexPath.row];
+    id<Person> person = self.filteredPeople[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", person.name, person.occupation];
     NSString *subjects = @"";
     for (NSString *subject in person.subjects) {

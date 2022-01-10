@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PeopleTableViewController : UIViewController<UITableViewDataSource>
+@interface PeopleTableViewController : UIViewController<UITableViewDataSource, UISearchBarDelegate>
 
 @end
